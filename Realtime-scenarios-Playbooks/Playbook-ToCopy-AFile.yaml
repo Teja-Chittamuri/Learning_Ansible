@@ -1,0 +1,11 @@
+---
+-
+   name: play to collect the host info
+   hosts: all_servers
+   user: teja
+   become: true
+   tasks:
+     - name: To collect the host info
+       copy:
+          content: "{{ansible_hostname}} {{ansible_processor_count}} {{ansible_default_ipv4-address}} {{ansible_default_mac.address}}"
+          dest: /home/linuxusr/ansible/hostinfo.txt

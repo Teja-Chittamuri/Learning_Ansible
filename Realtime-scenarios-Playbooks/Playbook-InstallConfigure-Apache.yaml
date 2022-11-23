@@ -1,0 +1,24 @@
+---
+-
+  name: play to install Apache
+  hosts: prod_servers
+  user: teja
+  become: true
+  tasks:
+     - name: To install Apache
+       yum:
+          name: httpd
+          state: present
+     - name: To download httpd.config
+       get_url:
+         url: https://artifacts//teja/httpd.confi.j2
+         dest: /etc/httpd/conf/httpd.conf
+     - name: create index.html
+       lineinfile:
+          path: /var/www/html/index.html
+          line: "Hello from {{ansible_hostname}}"
+          create: yes
+     - name: start the httpd server
+       service:
+          name: httpd
+          state: started 
