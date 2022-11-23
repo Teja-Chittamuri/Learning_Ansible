@@ -1,0 +1,18 @@
+---
+  -
+    name: play to download an artifact from Jfrog and unarchive
+    hosts: localhost
+    user: teja
+    become: true
+    tasks:
+      - name: 'To create a folder'
+        file:
+          path: /home/linuxusr/Artifacts
+          state: directory
+      - name: 'To download an artifact from jfrog'
+        get_url:
+            url: https://artifact.com/ekmacart.zip
+            dest: /var/tmp
+      - name: 'To unzip the artifact'
+        command: unzip -o /var/tmp/ekmacart.zip -d /home/linuxusr/Artifacts
+        

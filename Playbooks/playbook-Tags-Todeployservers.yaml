@@ -1,0 +1,13 @@
+---
+-
+  name: plat to deploy files in grouped servers
+  hosts: localhost
+  user: teja
+  become: true
+  tasks:
+  - name: To create a tar file
+    shell: tar -czf /home/linuxusr/production.tar.gz  /var/wwww/html
+    when: inventory_hostname in groups['production']
+  - name: To create a tar file
+    shell: tar -czf /home/linuxusr/backup.tar.gz  /var/log/httpd
+    when: inventory_hostname in groups['backup']

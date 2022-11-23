@@ -1,0 +1,54 @@
+---
+#To collect various servers host info
+
+  - name: play to collect host info
+    hosts: web_nodes
+    user: Teja
+    become: true
+    tasks:
+       - name: To collect the host info
+         copy:
+            content: " {{ansible_hostname}} {{ansible_processor_count}} {{ansible_private-ipv4.address}}"
+            dest: /home/linuxusr/host/hostinfo.txt
+---
+  # To Download an artifact from Jfrog and unarchive
+
+  - name: play to download an artifact from Jfrog and unarchive
+    hosts: db_nodes
+    user: Teja
+    become: true
+    tasks:
+      - name: To create a folder
+        file:
+          path: /var/deploy
+          state: directory
+      - name: To download an artifact from Jfrog
+        get_url:
+             url: https://artfiactory.io/ewebapp.zip
+             dest: var/tmp
+      - name: to unzip
+        shell: unzip -o /var/tmp/ewebapp.zip -d /var/deploy
+---
+  # To secure our Password using ansible vault
+  echo "Jesus@saves2001" > .pass1
+---
+    # To create ansible vault to store pass
+  ansible-vault create password.yaml --vault-password-file=.pass1
+---
+  # To view the password
+  ansible_vault view password.yaml --vault-password-file=.pass1
+---
+
+  - name: plat to access tyhe ansible_vault
+    hosts: localhost
+    user: Teja
+    become: true
+    var_files:
+        - password.yaml
+    tasks:
+      - name: To download the zip file
+        get_url:
+           url: https://tejs-chittamuri//github//ansible_files.zip
+           dest: /var/tmp
+      - name: To unzip
+        shell: unzip -o /var/tmp/ansible_files.zip -P {{Password.yaml}} -d var/tmp/ansible

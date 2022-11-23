@@ -1,0 +1,13 @@
+[web_nodes]
+
+web1 ansible_host=192.168.21 ansible_connection=ssh ansible_user=root ansible_ssh_pass=tejachottamuri
+web2 ansible_host=186.21.34 ansible_connection=winrm ansible_user=administrator ansible_password=teja@21
+
+[db_nodes]
+
+sql1 ansible_host=sql01.xyz.com ansible_connection=winrm ansible_user=administrator ansible_password=tejachittamuri
+sql2 ansible_host=sql02.yx.com ansible_sonnection=winrm ansible_user=administrator ansible_password=tej21
+
+[all_servers:children]
+web_nodes
+db_nodes
